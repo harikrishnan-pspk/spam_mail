@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spam Email Classifier</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f0f2f5;
+}
+
+.container{
+    width:600px;
+    margin:50px auto;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 15px rgba(0,0,0,0.2);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+    color:#333;
+}
+
+textarea{
+    width:100%;
+    height:200px;
+    padding:10px;
+    font-size:16px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    resize:none;
+}
+
+button{
+    width:100%;
+    margin-top:20px;
+    padding:12px;
+    background:#007bff;
+    color:white;
+    font-size:18px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0056b3;
+}
+
+#result{
+    margin-top:20px;
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+}
+
+#score{
+    text-align:center;
+    margin-top:10px;
+    font-size:18px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>Spam Email Classifier</h1>
+
+<textarea id="email" placeholder="Paste your email here..."></textarea>
+
+<button onclick="checkSpam()">Check Email</button>
+
+<div id="result"></div>
+<div id="score"></div>
+
+</div>
+
+<script>
+
+function checkSpam(){
+
+let text=document.getElementById("email").value.toLowerCase();
+
+let spamWords=[
+"free","winner","won","prize","cash","offer","urgent",
+"claim","money","credit","loan","gift","bonus",
+"lottery","click","subscribe","limited","discount",
+"buy now","earn","congratulations","selected",
+"verify account","bank","bitcoin","investment"
+];
+
+let spamCount=0;
+
+spamWords.forEach(word=>{
+    if(text.includes(word)){
+        spamCount++;
+    }
+});
+
+let percentage=Math.min((spamCount/spamWords.length)*100*4,100);
+
+document.getElementById("score").innerHTML=
+"Spam Probability : <b>"+percentage.toFixed(1)+"%</b>";
+
+if(percentage>=60){
+
+document.getElementById("result").innerHTML=
+"<span style='color:red;'>🚫 SPAM EMAIL</span>";
+
+}
+else if(percentage>=30){
+
+document.getElementById("result").innerHTML=
+"<span style='color:orange;'>⚠️ Suspicious Email</span>";
+
+}
+else{
+
+document.getElementById("result").innerHTML=
+"<span style='color:green;'>✅ Safe Email</span>";
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
